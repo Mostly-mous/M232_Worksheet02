@@ -1,33 +1,34 @@
 /**
  * Worksheet 2, exercise 3
  */
-const studentGrades = [ 
-  {name: 'Joe', grade: 88},
-  {name: 'Jen', grade: 94},
-  {name: 'Steph', grade: 77},
-  {name: 'Allen', grade: 60},
-  {name: 'Gina', grade: 54},
+const studentGrades = [
+    { name: 'Joe', grade: 88 },
+    { name: 'Jen', grade: 94 },
+    { name: 'Steph', grade: 77 },
+    { name: 'Allen', grade: 60 },
+    { name: 'Gina', grade: 54 },
 ];
 
-function groupByGrade (studentGrades) {
-    if (studentGrades.grade >= 90) {
-        const feedback = "Excellent Job " + studentGrades.name + ", you got an a!";
-        return feedback;
-    } else if (studentGrades.grade >= 80 && studentGrades.grade < 90) {
-        const feedback = "Nice Job " + studentGrades.name + ", you got an b!";
-        return feedback;
-    } else if (studentGrades.grade >= 70 && studentGrades.grade < 80) {
-        const feedback = "Well done " + studentGrades.name + ", you got an c!";
-        return feedback;
-    } else if (studentGrades.grade >= 60 && studentGrades.grade < 70) {
-        const feedback = "What happened " + studentGrades.name + ", you got an d!";
-        return feedback;
+const giveFeedback = (createFeedback) => (student) => {
+    const { name, grade } = student;
+    const { message, letter } = createFeedback(grade);
+
+    return `${message} ${name}, you got an ${letter}!`;
+}
+const createFeedback = (grade) => {
+    if (grade >= 90) {
+        return { message: "Excellent Job ", letter: "a" };
+    } else if (grade >= 80) {
+        return { message: "Nice Job ", letter: "b" };
+    } else if (grade >= 70) {
+        return { message: "Well done ", letter: "c" };
+    } else if (grade >= 60) {
+        return { message: "What happened ", letter: "d" };
     } else {
-        const feedback = "Not good " + studentGrades.name + ", you got an f!";
-        return feedback;
+        return { message: "Not good ", letter: "f" };
     }
 };
 
-const mapByGrade = studentGrades.map(groupByGrade);
+const studentFeedback = studentGrades.map(giveFeedback(createFeedback));
 
-const studentFeedback = studentGrades.reduce(mapByGrade, {});
+console.log(studentFeedback);
